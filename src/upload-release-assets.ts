@@ -47,6 +47,7 @@ export async function uploadAssets(releaseId: number, assets: Artifact[], repo: 
     }
 
     console.log(`Uploading ${assetName}...`);
+    console.log(`current repo: `, repo);
 
     await github.rest.repos.uploadReleaseAsset({
       headers,

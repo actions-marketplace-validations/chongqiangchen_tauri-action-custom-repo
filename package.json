@@ -1,6 +1,6 @@
 {
   "name": "tauri-action-custom-repo",
-  "version": "0.0.2",
+  "version": "0.0.5",
   "description": "Custom Repo ABOUT Tauri GitHub Action",
   "author": "daxiongya",
   "license": "MIT",
