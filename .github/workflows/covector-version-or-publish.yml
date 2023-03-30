@@ -30,14 +30,14 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.ORG_NPM_TOKEN }}
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.CUSTOM_TOKEN }}
           command: 'version-or-publish'
           createRelease: true
       - name: Create Pull Request With Versions Bumped
         if: steps.covector.outputs.commandRan == 'version'
         uses: tauri-apps/create-pull-request@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.CUSTOM_TOKEN }}
           branch: release/version-updates
           title: Apply Version Updates From Current Changes
           commit-message: 'apply version updates'
