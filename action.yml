@@ -1,9 +1,11 @@
-name: 'tauri-action'
+name: 'tauri-action-custom-repo'
 description: 'Build tauri binaries for MacOS, Windows and Linux'
 icon: 'download-cloud'
 color: 'blue'
-author: 'Lucas Nogueira <lucas@tauri.studio>'
+author: 'daxiongya'
 inputs:
+  repo:
+    description: 'Custom repo'
   releaseId:
     description: 'The id of the release to upload artifacts as release assets'
   tagName:
