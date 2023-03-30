@@ -133,7 +133,8 @@ async function run(): Promise<void> {
           // signed archive
           if (
             artifact.path.endsWith('.app') &&
-            !existsSync(`${artifact.path}.tar.gz`)
+            !existsSync(`${artifact.path}.tar.gz`) && 
+            existsSync(dirname(artifact.path))
           ) {
             await execCommand('tar', [
               'czf',
