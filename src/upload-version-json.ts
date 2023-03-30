@@ -30,6 +30,7 @@ export async function uploadVersionJSON({
   releaseId,
   artifacts,
   targetInfo,
+  repo
 }: {
   version: string;
   notes: string;
@@ -37,6 +38,7 @@ export async function uploadVersionJSON({
   releaseId: number;
   artifacts: Artifact[];
   targetInfo: TargetInfo;
+  repo: string;
 }) {
   if (process.env.GITHUB_TOKEN === undefined) {
     throw new Error('GITHUB_TOKEN is required');
@@ -55,7 +57,7 @@ export async function uploadVersionJSON({
 
   const assets = await github.rest.repos.listReleaseAssets({
     owner: context.repo.owner,
-    repo: context.repo.repo,
+    repo: repo || context.repo.repo,
     release_id: releaseId,
     per_page: 50,
   });
@@ -67,7 +69,7 @@ export async function uploadVersionJSON({
         'GET /repos/{owner}/{repo}/releases/assets/{asset_id}',
         {
           owner: context.repo.owner,
-          repo: context.repo.repo,
+          repo: repo || context.repo.repo,
           asset_id: asset.id,
           headers: {
             accept: 'application/octet-stream',
@@ -127,14 +129,14 @@ export async function uploadVersionJSON({
       // https://docs.github.com/en/rest/releases/assets#update-a-release-asset
       await github.rest.repos.deleteReleaseAsset({
         owner: context.repo.owner,
-        repo: context.repo.repo,
+        repo: repo || context.repo.repo,
         release_id: releaseId,
         asset_id: asset.id,
       });
     }
 
     console.log(`Uploading ${versionFile}...`);
-    await uploadAssets(releaseId, [{ path: versionFile, arch: '' }]);
+    await uploadAssets(releaseId, [{ path: versionFile, arch: '' }], repo);
   } else {
     const missing = downloadUrl
       ? 'Signature'

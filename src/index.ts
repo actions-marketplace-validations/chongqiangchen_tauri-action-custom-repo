@@ -34,6 +34,7 @@ async function run(): Promise<void> {
 
     let tagName = core.getInput('tagName').replace('refs/tags/', '');
     let releaseId = Number(core.getInput('releaseId'));
+    let repo = core.getInput('repo');
     let releaseName = core.getInput('releaseName').replace('refs/tags/', '');
     let body = core.getInput('releaseBody');
     const draft = core.getBooleanInput('releaseDraft');
@@ -148,7 +149,7 @@ async function run(): Promise<void> {
         }
       }
 
-      await uploadReleaseAssets(releaseId, artifacts);
+      await uploadReleaseAssets(releaseId, artifacts, repo);
 
       if (includeUpdaterJson) {
         await uploadVersionJSON({
@@ -158,6 +159,7 @@ async function run(): Promise<void> {
           releaseId,
           artifacts,
           targetInfo,
+          repo
         });
       }
     }
