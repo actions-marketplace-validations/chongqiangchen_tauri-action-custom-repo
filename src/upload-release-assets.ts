@@ -24,6 +24,8 @@ export async function uploadAssets(releaseId: number, assets: Artifact[], repo: 
   // Determine content-length for header to upload asset
   const contentLength = (filePath: string) => fs.statSync(filePath).size;
 
+  console.log(`Uploading ${assets.length} assets...`);
+  
   for (const asset of assets) {
     const headers = {
       'content-type': 'application/zip',

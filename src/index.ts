@@ -127,6 +127,8 @@ async function run(): Promise<void> {
       if (targetInfo.platform === 'macos') {
         let i = 0;
         for (const artifact of artifacts) {
+          console.log(`Signing ${artifact.path}...`);
+          await execCommand('ls', []);
           // updater provide a .tar.gz, this will prevent duplicate and overwriting of
           // signed archive
           if (
@@ -149,6 +151,8 @@ async function run(): Promise<void> {
         }
       }
 
+      console.log('Uploading artifacts...');
+      
       await uploadReleaseAssets(releaseId, artifacts, repo);
 
       if (includeUpdaterJson) {

@@ -32,7 +32,8 @@ export async function createRelease(
   body?: string,
   commitish?: string,
   draft = true,
-  prerelease = true
+  prerelease = true,
+  inputRepo = undefined
 ): Promise<Release> {
   if (process.env.GITHUB_TOKEN === undefined) {
     throw new Error('GITHUB_TOKEN is required');
@@ -79,7 +80,7 @@ export async function createRelease(
     } else {
       const foundRelease = await github.rest.repos.getReleaseByTag({
         owner,
-        repo,
+        repo: inputRepo || repo,
         tag: tagName,
       });
       release = foundRelease.data;
@@ -91,7 +92,7 @@ export async function createRelease(
       console.log(`Couldn't find release with tag ${tagName}. Creating one.`);
       const createdRelease = await github.rest.repos.createRelease({
         owner,
-        repo,
+        repo: inputRepo || repo,
         tag_name: tagName,
         name: releaseName,
         body: bodyFileContent || body,
